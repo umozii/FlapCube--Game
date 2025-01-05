@@ -151,7 +151,8 @@ function main() {
   });
 
   function gameLoop() {
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.fillStyle = WHITE; // 設定遊戲背景為白色
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     if (state === START) {
       startScreen();
