@@ -120,8 +120,8 @@ function gameOverScreen() {
   ctx.font = "36px Arial";
   ctx.textAlign = "center";
   ctx.fillText("Game Over", WIDTH / 2, HEIGHT / 3);
-  ctx.fillText(Score: ${score}, WIDTH / 2, HEIGHT / 2);
-  ctx.fillText(High Score: ${highScore}, WIDTH / 2, HEIGHT / 2 + 40);
+  ctx.fillText(`Score: ${score}`, WIDTH / 2, HEIGHT / 2);
+  ctx.fillText(`High Score: ${highScore}`, WIDTH / 2, HEIGHT / 2 + 40);
   ctx.fillText("Press Enter to Restart", WIDTH / 2, HEIGHT / 2 + 100);
 }
 
@@ -177,8 +177,8 @@ function main() {
 
       ctx.fillStyle = BLACK;
       ctx.font = "24px Arial";
-      ctx.fillText(Score: ${score}, 10, 30);
-      ctx.fillText(High Score: ${highScore}, WIDTH - 150, 30);
+      ctx.fillText(`Score: ${score}`, 10, 30);
+      ctx.fillText(`High Score: ${highScore}`, WIDTH - 150, 30);
 
       for (const pipe of pipes) {
         if (
