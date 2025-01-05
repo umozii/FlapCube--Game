@@ -5,22 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flappy Bird Game</title>
   <style>
-    body {
+    /* 全局樣式：設定頁面背景為白色 */
+    body, html {
       margin: 0;
+      padding: 0;
       background-color: white; /* 頁面背景設為白色 */
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      height: 100vh; /* 垂直居中 */
     }
+
+    /* Canvas 样式 */
     #gameCanvas {
-      background-color: white; /* 確保 Canvas 背景也是白色 */
-      border: 1px solid black; /* 可選：增加邊框以便調試 */
+      background-color: white !important; /* 強制設定 Canvas 背景為白色 */
+      border: 1px solid black; /* 可選：移除或保留以方便調試 */
+      display: block; /* 確保 Canvas 正確顯示 */
     }
   </style>
 </head>
 <body>
+  <!-- 遊戲畫布 -->
   <canvas id="gameCanvas"></canvas>
-  <script src="game.js"></script> <!-- 引入遊戲主程式 -->
+
+  <!-- 引入遊戲的 JavaScript 檔案 -->
+  <script src="game.js"></script>
 </body>
 </html>
