@@ -14,12 +14,12 @@ const BLACK = "#000000";
 
 // Define constants
 const FPS = 60; // Frames per second
-const GRAVITY = 0.5; // Gravity effect
-const JUMP = -40; // Jump velocity
+const GRAVITY = 0.3; // Gravity effect
+const JUMP = -50; // Jump velocity
 const PIPE_WIDTH = 70; // Pipe width
 const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
 const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes
-const MAX_FALL_SPEED = 6; // Maximum fall speed
+const MAX_FALL_SPEED = 5; // Maximum fall speed
 const PIPE_SPAWN_INTERVAL = 90; // Frames between pipe spawns
 
 // Game state
@@ -35,29 +35,29 @@ let state = STATES.START;
 // Bird class
 class Bird {
     constructor() {
-        this.x = WIDTH * 0.15; // 小鳥水平位置
-        this.y = HEIGHT / 2;   // 小鳥垂直位置
-        this.vel = 0;          // 初始垂直速度
-        this.width = 30;       // 小鳥的寬度
-        this.height = 30;      // 小鳥的高度
+        this.x = WIDTH * 0.15;
+        this.y = HEIGHT / 2;
+        this.vel = 0;
+        this.width = 30;
+        this.height = 30;
     }
 
     update() {
-        this.vel += GRAVITY; // 受到重力影響
+        this.vel += GRAVITY; // 加入重力
         if (this.vel > MAX_FALL_SPEED) {
-            this.vel = MAX_FALL_SPEED; // 限制最大墜落速度
+            this.vel = MAX_FALL_SPEED; // 限制最大下墜速度
         }
-        this.y += this.vel; // 更新小鳥的垂直位置
-        if (this.y < 0) {   // 防止小鳥飛出畫面頂部
+        this.y += this.vel; // 更新垂直位置
+        if (this.y < 0) {
             this.y = 0;
             this.vel = 0;
         }
     }
 
     jump() {
-        console.log("Before jump:", this.vel); // 查看跳躍前速度
-        this.vel = JUMP; // 重設速度為跳躍速度
-        console.log("After jump:", this.vel);  // 查看跳躍後速度
+        console.log("Before jump:", this.vel); // 跳躍前速度
+        this.vel = JUMP; // 設置跳躍速度
+        console.log("After jump:", this.vel);  // 跳躍後速度
     }
 
     draw() {
