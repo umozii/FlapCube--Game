@@ -11,6 +11,7 @@ canvas.height = HEIGHT;
 const WHITE = "#FFFFFF";
 const GREEN = "#00FF00";
 const BLACK = "#000000";
+const SKY_BLUE = "#87CEEB"; // 背景顏色
 
 // Define constants
 const FPS = 60; // Frames per second
@@ -70,7 +71,7 @@ class Pipe {
         this.x = WIDTH;
         this.gap = Math.floor(Math.random() * (MAX_PIPE_GAP - MIN_PIPE_GAP + 1)) + MIN_PIPE_GAP;
         this.height = Math.floor(Math.random() * (HEIGHT - this.gap - 100)) + 100;
-        this.speed = 2.5; // 調整此值控制速度，例如設為 3 表示較慢的移動速度
+        this.speed = 2.5; // 調整此值控制速度
     }
 
     update() {
@@ -102,43 +103,43 @@ function resetGame() {
 }
 
 function startScreen() {
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = SKY_BLUE;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText("FlapCube！", WIDTH / 2 - 120, HEIGHT / 3);
+    ctx.fillText("FlapCube!", WIDTH / 2 - ctx.measureText("FlapCube!").width / 2, HEIGHT / 3);
 
     ctx.font = "24px Arial";
-    ctx.fillText("Press Enter to Start", WIDTH / 2 - 100, HEIGHT / 2);
+    ctx.fillText("Press Enter to Start", WIDTH / 2 - ctx.measureText("Press Enter to Start").width / 2, HEIGHT / 2);
 }
 
 function countdownScreen(count) {
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = SKY_BLUE;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText(count, WIDTH / 2 - 15, HEIGHT / 2);
+    ctx.fillText(count, WIDTH / 2 - ctx.measureText(count).width / 2, HEIGHT / 2);
 }
 
 function gameOverScreen() {
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = SKY_BLUE;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText("Game Over", WIDTH / 2 - 120, HEIGHT / 3);
+    ctx.fillText("Game Over", WIDTH / 2 - ctx.measureText("Game Over").width / 2, HEIGHT / 3);
 
     ctx.font = "24px Arial";
-    ctx.fillText(Score: ${score}, WIDTH / 2 - 50, HEIGHT / 2 - 50);
-    ctx.fillText(High Score: ${highScore}, WIDTH / 2 - 80, HEIGHT / 2);
-    ctx.fillText("Press Enter to Restart", WIDTH / 2 - 120, HEIGHT / 2 + 50);
+    ctx.fillText(`Score: ${score}`, WIDTH / 2 - ctx.measureText(`Score: ${score}`).width / 2, HEIGHT / 2 - 50);
+    ctx.fillText(`High Score: ${highScore}`, WIDTH / 2 - ctx.measureText(`High Score: ${highScore}`).width / 2, HEIGHT / 2);
+    ctx.fillText("Press Enter to Restart", WIDTH / 2 - ctx.measureText("Press Enter to Restart").width / 2, HEIGHT / 2 + 50);
 }
 
 // Main game loop
 function gameLoop() {
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = SKY_BLUE;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     if (state === STATES.START) {
@@ -151,15 +152,12 @@ function gameLoop() {
             countdownScreen(countdown);
         }
     } else if (state === STATES.PLAYING) {
-        // Update bird
         bird.update();
 
-        // Spawn pipes
         if (frameCount % PIPE_SPAWN_INTERVAL === 0) {
             pipes.push(new Pipe());
         }
 
-        // Update pipes
         for (let i = pipes.length - 1; i >= 0; i--) {
             pipes[i].update();
             if (pipes[i].x + PIPE_WIDTH < 0) {
@@ -169,7 +167,6 @@ function gameLoop() {
             }
         }
 
-        // Collision detection
         let collision = false;
         pipes.forEach((pipe) => {
             if (
@@ -185,15 +182,16 @@ function gameLoop() {
             state = STATES.GAME_OVER;
         }
 
-        // Draw everything
         bird.draw();
         pipes.forEach((pipe) => pipe.draw());
 
-        // Draw score
         ctx.fillStyle = BLACK;
         ctx.font = "24px Arial";
-        ctx.fillText(Score: ${score}, 10, 30);
-        ctx.fillText(High Score: ${highScore}, WIDTH - 150, 30);
+        ctx.fillText(`Score: ${score}`, 10, 30);
+
+        const highScoreText = `High Score: ${highScore}`;
+        const highScoreWidth = ctx.measureText(highScoreText).width;
+        ctx.fillText(highScoreText, WIDTH - highScoreWidth - 10, 30);
     } else if (state === STATES.GAME_OVER) {
         gameOverScreen();
     }
