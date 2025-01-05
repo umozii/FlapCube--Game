@@ -107,10 +107,10 @@ function startScreen() {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText("FlapCube！", WIDTH / 2 - 120, HEIGHT / 3);
+    ctx.fillText("FlapCube!", WIDTH / 2 - ctx.measureText("FlapCube!").width / 2, HEIGHT / 3);
 
     ctx.font = "24px Arial";
-    ctx.fillText("Press Enter to Start", WIDTH / 2 - 100, HEIGHT / 2);
+    ctx.fillText("Press Enter to Start", WIDTH / 2 - ctx.measureText("Press Enter to Start").width / 2, HEIGHT / 2);
 }
 
 function countdownScreen(count) {
@@ -119,7 +119,7 @@ function countdownScreen(count) {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText(count, WIDTH / 2 - 15, HEIGHT / 2);
+    ctx.fillText(count, WIDTH / 2 - ctx.measureText(count).width / 2, HEIGHT / 2);
 }
 
 function gameOverScreen() {
@@ -128,12 +128,12 @@ function gameOverScreen() {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText("Game Over", WIDTH / 2 - 120, HEIGHT / 3);
+    ctx.fillText("Game Over", WIDTH / 2 - ctx.measureText("Game Over").width / 2, HEIGHT / 3);
 
     ctx.font = "24px Arial";
-    ctx.fillText(`Score: ${score}`, WIDTH / 2 - 50, HEIGHT / 2 - 50);
-    ctx.fillText(`High Score: ${highScore}`, WIDTH / 2 - 80, HEIGHT / 2);
-    ctx.fillText("Press Enter to Restart", WIDTH / 2 - 120, HEIGHT / 2 + 50);
+    ctx.fillText(`Score: ${score}`, WIDTH / 2 - ctx.measureText(`Score: ${score}`).width / 2, HEIGHT / 2 - 50);
+    ctx.fillText(`High Score: ${highScore}`, WIDTH / 2 - ctx.measureText(`High Score: ${highScore}`).width / 2, HEIGHT / 2);
+    ctx.fillText("Press Enter to Restart", WIDTH / 2 - ctx.measureText("Press Enter to Restart").width / 2, HEIGHT / 2 + 50);
 }
 
 // Main game loop
@@ -190,18 +190,13 @@ function gameLoop() {
         pipes.forEach((pipe) => pipe.draw());
 
         // Draw score
-        // 繪製分數與高分
-	ctx.fillStyle = BLACK;
-	ctx.font = "24px Arial";
+        ctx.fillStyle = BLACK;
+        ctx.font = "24px Arial";
+        ctx.fillText(`Score: ${score}`, 10, 30);
 
-	// 繪製左上角的 Score
-	ctx.fillText(`Score: ${score}`, 10, 30);
-
-	// 計算 High Score 的寬度並動態調整位置
-	const highScoreText = `High Score: ${highScore}`;
-	const highScoreWidth = ctx.measureText(highScoreText).width;
-	ctx.fillText(highScoreText, WIDTH - highScoreWidth - 10, 30); // 保留 10px 邊距
-
+        const highScoreText = `High Score: ${highScore}`;
+        const highScoreWidth = ctx.measureText(highScoreText).width;
+        ctx.fillText(highScoreText, WIDTH - highScoreWidth - 10, 30);
     } else if (state === STATES.GAME_OVER) {
         gameOverScreen();
     }
