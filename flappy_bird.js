@@ -107,10 +107,13 @@ function startScreen() {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
+    ctx.textAlign = "center";
     ctx.fillText("FlapCube!", WIDTH / 2 - 120, HEIGHT / 3);
 
     ctx.font = "24px Arial";
     ctx.fillText("Press Enter to Start", WIDTH / 2 - 100, HEIGHT / 2);
+
+    ctx.font = "16px Arial";
     ctx.fillText("Use the Up Arrow to Control", WIDTH / 2, HEIGHT / 2 + 40);
 }
 
@@ -129,14 +132,13 @@ function gameOverScreen() {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.textAlign = "center";
     ctx.fillText("Game Over", WIDTH / 2 - 120, HEIGHT / 3);
 
     ctx.font = "24px Arial";
     ctx.fillText(`Score: ${score}`, WIDTH / 2 - 50, HEIGHT / 2 - 50);
     ctx.fillText(`High Score: ${highScore}`, WIDTH / 2 - 80, HEIGHT / 2);
 	
-    ctx.font = "20px Arial";
+    ctx.font = "24px Arial";
     ctx.fillText("Press Enter to Restart", WIDTH / 2 - 120, HEIGHT / 2 + 50);
 }
 
