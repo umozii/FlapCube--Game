@@ -89,7 +89,7 @@ function startScreen() {
   ctx.fillStyle = BLACK;
   ctx.font = "36px Arial";
   ctx.textAlign = "center";
-  ctx.fillText("FlapCube!", WIDTH / 2, HEIGHT / 3);
+  ctx.fillText("Flappy Bird", WIDTH / 2, HEIGHT / 3);
   ctx.fillText("Press Enter to Start", WIDTH / 2, HEIGHT / 2);
 }
 
