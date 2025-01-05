@@ -14,12 +14,12 @@ const BLACK = "#000000";
 
 // Define constants
 const FPS = 60; // Frames per second
-const GRAVITY = 0.8; // Gravity effect
+const GRAVITY = 0.6; // Gravity effect
 const JUMP = -20; // Jump velocity
 const PIPE_WIDTH = 70; // Pipe width
 const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
 const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes
-const MAX_FALL_SPEED = 6; // Maximum fall speed
+const MAX_FALL_SPEED = 4; // Maximum fall speed
 const PIPE_SPAWN_INTERVAL = 90; // Frames between pipe spawns
 
 // Game state
