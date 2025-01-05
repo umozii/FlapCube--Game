@@ -111,6 +111,9 @@ function startScreen() {
 
     ctx.font = "24px Arial";
     ctx.fillText("Press Enter to Start", WIDTH / 2 - 100, HEIGHT / 2);
+
+    // Added instruction for controls
+    ctx.fillText("Use the Up Arrow to Control", WIDTH / 2, HEIGHT / 2 + 40);
 }
 
 function countdownScreen(count) {
