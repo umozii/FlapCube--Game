@@ -14,12 +14,12 @@ const BLACK = "#000000";
 
 // Define constants
 const FPS = 60; // Frames per second
-const GRAVITY = 1; // Gravity effect
-const JUMP = -15; // Jump velocity
+const GRAVITY = 0.65; // Gravity effect
+const JUMP = -12; // Jump velocity
 const PIPE_WIDTH = 70; // Pipe width
 const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
 const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes
-const MAX_FALL_SPEED = 15; // Maximum fall speed
+const MAX_FALL_SPEED = 4.5; // Maximum fall speed
 const PIPE_SPAWN_INTERVAL = 90; // Frames between pipe spawns
 
 // Game state
@@ -35,29 +35,27 @@ let state = STATES.START;
 // Bird class
 class Bird {
     constructor() {
-        this.x = WIDTH * 0.15;
-        this.y = HEIGHT / 2;
-        this.vel = 0;
-        this.width = 30;
-        this.height = 30;
+        this.x = WIDTH * 0.15; // 小鳥水平位置
+        this.y = HEIGHT / 2;   // 小鳥垂直位置
+        this.vel = 0;          // 初始垂直速度
+        this.width = 30;       // 小鳥的寬度
+        this.height = 30;      // 小鳥的高度
     }
 
     update() {
-        this.vel += GRAVITY; // 加入重力
+        this.vel += GRAVITY; // 受到重力影響
         if (this.vel > MAX_FALL_SPEED) {
-            this.vel = MAX_FALL_SPEED; // 限制最大下墜速度
+            this.vel = MAX_FALL_SPEED; // 限制最大墜落速度
         }
-        this.y += this.vel; // 更新垂直位置
-        if (this.y < 0) {
+        this.y += this.vel; // 更新小鳥的垂直位置
+        if (this.y < 0) {   // 防止小鳥飛出畫面頂部
             this.y = 0;
             this.vel = 0;
         }
     }
 
     jump() {
-        console.log("Before jump:", this.vel); // 跳躍前速度
-        this.vel = JUMP; // 設置跳躍速度
-        console.log("After jump:", this.vel);  // 跳躍後速度
+        this.vel = JUMP; // 跳躍時重置垂直速度
     }
 
     draw() {
@@ -109,10 +107,10 @@ function startScreen() {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText("FlapCube!", WIDTH / 2 - ctx.measureText("FlapCube!").width / 2, HEIGHT / 3);
+    ctx.fillText("Flappy Bird", WIDTH / 2 - 120, HEIGHT / 3);
 
     ctx.font = "24px Arial";
-    ctx.fillText("Press Enter to Start", WIDTH / 2 - ctx.measureText("Press Enter to Start").width / 2, HEIGHT / 2);
+    ctx.fillText("Press Enter to Start", WIDTH / 2 - 100, HEIGHT / 2);
 }
 
 function countdownScreen(count) {
@@ -121,7 +119,7 @@ function countdownScreen(count) {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText(count, WIDTH / 2 - ctx.measureText(count).width / 2, HEIGHT / 2);
+    ctx.fillText(count, WIDTH / 2 - 15, HEIGHT / 2);
 }
 
 function gameOverScreen() {
@@ -130,12 +128,12 @@ function gameOverScreen() {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText("Game Over", WIDTH / 2 - ctx.measureText("Game Over").width / 2, HEIGHT / 3);
+    ctx.fillText("Game Over", WIDTH / 2 - 120, HEIGHT / 3);
 
     ctx.font = "24px Arial";
-    ctx.fillText(`Score: ${score}`, WIDTH / 2 - ctx.measureText(`Score: ${score}`).width / 2, HEIGHT / 2 - 50);
-    ctx.fillText(`High Score: ${highScore}`, WIDTH / 2 - ctx.measureText(`High Score: ${highScore}`).width / 2, HEIGHT / 2);
-    ctx.fillText("Press Enter to Restart", WIDTH / 2 - ctx.measureText("Press Enter to Restart").width / 2, HEIGHT / 2 + 50);
+    ctx.fillText(Score: ${score}, WIDTH / 2 - 50, HEIGHT / 2 - 50);
+    ctx.fillText(High Score: ${highScore}, WIDTH / 2 - 80, HEIGHT / 2);
+    ctx.fillText("Press Enter to Restart", WIDTH / 2 - 120, HEIGHT / 2 + 50);
 }
 
 // Main game loop
@@ -194,11 +192,8 @@ function gameLoop() {
         // Draw score
         ctx.fillStyle = BLACK;
         ctx.font = "24px Arial";
-        ctx.fillText(`Score: ${score}`, 10, 30);
-
-        const highScoreText = `High Score: ${highScore}`;
-        const highScoreWidth = ctx.measureText(highScoreText).width;
-        ctx.fillText(highScoreText, WIDTH - highScoreWidth - 10, 30);
+        ctx.fillText(Score: ${score}, 10, 30);
+        ctx.fillText(High Score: ${highScore}, WIDTH - 150, 30);
     } else if (state === STATES.GAME_OVER) {
         gameOverScreen();
     }
