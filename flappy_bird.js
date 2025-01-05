@@ -15,11 +15,11 @@ const BLACK = "#000000";
 // Define constants
 const FPS = 60; // Frames per second
 const GRAVITY = 0.6; // Gravity effect
-const JUMP = -20; // Jump velocity
+const JUMP = -16; // Jump velocity
 const PIPE_WIDTH = 70; // Pipe width
 const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
 const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes
-const MAX_FALL_SPEED = 4; // Maximum fall speed
+const MAX_FALL_SPEED = 5; // Maximum fall speed
 const PIPE_SPAWN_INTERVAL = 90; // Frames between pipe spawns
 
 // Game state
@@ -55,7 +55,9 @@ class Bird {
     }
 
     jump() {
-        this.vel = JUMP; // 跳躍時重置垂直速度
+        console.log("Before jump:", this.vel); // 查看跳躍前速度
+        this.vel = JUMP; // 重設速度為跳躍速度
+        console.log("After jump:", this.vel);  // 查看跳躍後速度
     }
 
     draw() {
