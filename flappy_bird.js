@@ -14,7 +14,7 @@ const BLACK = "#000000";
 
 // Define constants
 const FPS = 60; // Frames per second
-const GRAVITY = 0.3; // Gravity effect
+const GRAVITY = 0.8; // Gravity effect
 const JUMP = -13; // Jump velocity
 const PIPE_WIDTH = 70; // Pipe width
 const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
