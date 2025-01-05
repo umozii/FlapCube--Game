@@ -107,7 +107,6 @@ function startScreen() {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.textAlign = "center";
     ctx.fillText("FlapCube!", WIDTH / 2 - 120, HEIGHT / 3);
 
     ctx.font = "24px Arial";
