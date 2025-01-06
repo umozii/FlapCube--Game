@@ -151,12 +151,29 @@ function countdownScreen(count) {
 	
     const text = count.toString();
     const metrics = ctx.measureText(text);
-    const textWidth = metrics.width;
 
+    if (
+    typeof metrics.actualBoundingBoxLeft === "number" &&
+    typeof metrics.actualBoundingBoxRight === "number"
+  ) {
+    // 整個文字內容的實際寬度 (不包含字形外的空白)
+    const fullWidth = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight;
+    // 算出文字「視覺上」的正中點應該在哪
+    const x = WIDTH / 2 - metrics.actualBoundingBoxLeft;
+    const y = HEIGHT / 2;
+
+    ctx.fillText(text, x, y);
+
+  } else {
+    // fallback：舊作法，用整段字串的總寬度
+    const textWidth = metrics.width;
     const x = (WIDTH - textWidth) / 2;
     const y = HEIGHT / 2;
+
     ctx.fillText(text, x, y);
+  }
 }
+    
 
 function gameOverScreen() {
     ctx.fillStyle = WHITE;
