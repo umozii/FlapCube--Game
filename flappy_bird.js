@@ -101,17 +101,45 @@ function resetGame() {
     state = STATES.START;
 }
 
+// === Start screen ===
 function startScreen() {
+    // Fill the entire canvas with white
     ctx.fillStyle = WHITE;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
+  
+    // Center alignment for text
+    ctx.textAlign = "center";
     ctx.fillStyle = BLACK;
+  
+    // FlapCube! (48px)
     ctx.font = "48px Arial";
-    ctx.fillText("FlapCube!", WIDTH / 2 - 120, HEIGHT / 3);
-
+    ctx.fillText("FlapCube!", WIDTH / 2, HEIGHT / 3);
+  
+    // Press Enter to Start (24px)
     ctx.font = "24px Arial";
-    ctx.fillText("Press Enter to Start", WIDTH / 2 - 100, HEIGHT / 2);
-}
+    ctx.fillText("Press Enter to Start", WIDTH / 2, HEIGHT / 2);
+  
+    // Press up arrow to control (16px)
+    ctx.font = "16px Arial";
+    ctx.fillText("Press up arrow to control", WIDTH / 2, HEIGHT / 2 + 40);
+  
+    // Developed by umozii (10px) at bottom-right
+    ctx.font = "10px Arial";
+    ctx.textAlign = "right";
+    ctx.fillText("Developed by umozii", WIDTH - 10, HEIGHT - 10);
+  }
+
+// function startScreen() {
+//     ctx.fillStyle = WHITE;
+//     ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+//     ctx.fillStyle = BLACK;
+//     ctx.font = "48px Arial";
+//     ctx.fillText("FlapCube!", WIDTH / 2 - 120, HEIGHT / 3);
+
+//     ctx.font = "24px Arial";
+//     ctx.fillText("Press Enter to Start", WIDTH / 2 - 100, HEIGHT / 2);
+// }
 
 function countdownScreen(count) {
     ctx.fillStyle = WHITE;
