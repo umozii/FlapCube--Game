@@ -1,7 +1,7 @@
 echo "# Flappy-Bird-Game" >> README.md
 git init
 git add README.md
-git commit -m "first commit"
+git commit -m "First Time Create A Game by Myself"
 git branch -M main
 git remote add origin https://github.com/umozii/Flappy-Bird-Game.git
 git push -u origin main
