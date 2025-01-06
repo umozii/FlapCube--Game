@@ -174,7 +174,6 @@ function countdownScreen(count) {
   }
 }
     
-
 function gameOverScreen() {
     ctx.fillStyle = WHITE;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
@@ -277,7 +276,33 @@ document.addEventListener("keydown", (e) => {
         resetGame();
     }
 });
-canvas.addEventListener("click", () => {
+// canvas.addEventListener("click", () => {
+//     if (state === STATES.START) {
+//         state = STATES.COUNTDOWN;
+//         frameCount = 0;
+//     } else if (state === STATES.PLAYING) {
+//         bird.jump();
+//     } else if (state === STATES.GAME_OVER) {
+//         resetGame();
+//     }
+// });
+
+// canvas.addEventListener("touchstart", (e) => {
+//     e.preventDefault(); // 防止手機瀏覽器產生選字/捲動等預設行為
+//     if (state === STATES.START) {
+//         state = STATES.COUNTDOWN;
+//         frameCount = 0;
+//     } else if (state === STATES.PLAYING) {
+//         bird.jump();
+//     } else if (state === STATES.GAME_OVER) {
+//         resetGame();
+//     }
+// });
+canvas.addEventListener("pointerdown", (e) => {
+    // optional:  e.preventDefault(); // 防止手機或平板的預設行為(捲動/縮放)
+    // 確認pointerType
+    console.log("Pointer type:", e.pointerType);
+    // 可能是 "mouse", "touch", "pen"
     if (state === STATES.START) {
         state = STATES.COUNTDOWN;
         frameCount = 0;
@@ -288,17 +313,6 @@ canvas.addEventListener("click", () => {
     }
 });
 
-canvas.addEventListener("touchstart", (e) => {
-    e.preventDefault(); // 防止手機瀏覽器產生選字/捲動等預設行為
-    if (state === STATES.START) {
-        state = STATES.COUNTDOWN;
-        frameCount = 0;
-    } else if (state === STATES.PLAYING) {
-        bird.jump();
-    } else if (state === STATES.GAME_OVER) {
-        resetGame();
-    }
-});
 
 // Start the game loop
 gameLoop();
