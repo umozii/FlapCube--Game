@@ -147,9 +147,15 @@ function countdownScreen(count) {
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(count, WIDTH / 2 - 15, HEIGHT / 2);
+	
+    const text = count.toString();
+    const metrics = ctx.measureText(text);
+    const textWidth = metrics.width;
+
+    const x = (WIDTH - textWidth) / 2;
+    const y = HEIGHT / 2;
+    ctx.fillText(text, x, y);
 }
 
 function gameOverScreen() {
