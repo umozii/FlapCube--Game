@@ -2,8 +2,8 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 // Set up display
-const WIDTH = 500; // Game canvas width
-const HEIGHT = 600; // Game canvas height
+const WIDTH = 500; // Game canvas width  遊戲畫布寬度
+const HEIGHT = 600; // Game canvas height  遊戲畫布高度
 canvas.width = WIDTH;
 canvas.height = HEIGHT;
 
@@ -12,15 +12,15 @@ const WHITE = "#FFFFFF";
 const GREEN = "#00FF00";
 const BLACK = "#000000";
 
-// Define constants
-const FPS = 60; // Frames per second
-const GRAVITY = 0.65; // Gravity effect
-const JUMP = -12; // Jump velocity
-const PIPE_WIDTH = 70; // Pipe width
-const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
-const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes
-const MAX_FALL_SPEED = 4; // Maximum fall speed
-const PIPE_SPAWN_INTERVAL = 90; // Frames between pipe spawns
+// Define constants  定義常數
+const FPS = 60; // Frames per second 每秒影格數
+const GRAVITY = 0.65; // Gravity effect 重力影響
+const JUMP = -12; // Jump velocity 跳躍速度
+const PIPE_WIDTH = 70; // Pipe width  水管寬度
+const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes  水管間最小垂直間隙
+const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes  水管間最大垂直間隙
+const MAX_FALL_SPEED = 4; // Maximum fall speed   最大下墜速度
+const PIPE_SPAWN_INTERVAL = 95; // Frames between pipe spawns  產生新水管的幀數間隔
 
 // Game state
 const STATES = {
