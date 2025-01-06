@@ -159,7 +159,7 @@ function countdownScreen(count) {
     // 整個文字內容的實際寬度 (不包含字形外的空白)
     const fullWidth = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight;
     // 算出文字「視覺上」的正中點應該在哪
-    const x = (WIDTH / 2 - metrics.actualBoundingBoxLeft) + 10;
+    const x = (WIDTH / 2 - metrics.actualBoundingBoxLeft) + 15;
     const y = HEIGHT / 2;
 
     ctx.fillText(text, x, y);
