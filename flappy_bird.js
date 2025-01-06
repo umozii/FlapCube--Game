@@ -117,11 +117,11 @@ function startScreen() {
   
     // Press Enter to Start (24px)
     ctx.font = "24px Arial";
-    ctx.fillText("Press Enter to Start", WIDTH / 2, HEIGHT / 2);
+    ctx.fillText("Press Enter or Tap to Start", WIDTH / 2, HEIGHT / 2);
   
     // Press up arrow to control (16px)
     ctx.font = "16px Arial";
-    ctx.fillText("Press up arrow to control", WIDTH / 2, HEIGHT / 2 + 40);
+    ctx.fillText("Press Up Arrow or Tap to Jump", WIDTH / 2, HEIGHT / 2 + 40);
   
     // Developed by umozii (10px) at bottom-right
     ctx.font = "10px Arial";
@@ -274,6 +274,28 @@ document.addEventListener("keydown", (e) => {
     } else if (state === STATES.PLAYING && e.code === "ArrowUp") {
         bird.jump();
     } else if (state === STATES.GAME_OVER && e.code === "Enter") {
+        resetGame();
+    }
+});
+canvas.addEventListener("click", () => {
+    if (state === STATES.START) {
+        state = STATES.COUNTDOWN;
+        frameCount = 0;
+    } else if (state === STATES.PLAYING) {
+        bird.jump();
+    } else if (state === STATES.GAME_OVER) {
+        resetGame();
+    }
+});
+
+canvas.addEventListener("touchstart", (e) => {
+    e.preventDefault(); // 防止手機瀏覽器產生選字/捲動等預設行為
+    if (state === STATES.START) {
+        state = STATES.COUNTDOWN;
+        frameCount = 0;
+    } else if (state === STATES.PLAYING) {
+        bird.jump();
+    } else if (state === STATES.GAME_OVER) {
         resetGame();
     }
 });
