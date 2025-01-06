@@ -225,6 +225,7 @@ function gameLoop() {
 	ctx.font = "24px Arial";
 
 	// 繪製左上角的 Score
+	ctx.textAlign = "left";
 	ctx.fillText(`Score: ${score}`, 10, 30);
 
 	// 計算 High Score 的寬度並動態調整位置
