@@ -148,6 +148,7 @@ function countdownScreen(count) {
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
     ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
     ctx.fillText(count, WIDTH / 2 - 15, HEIGHT / 2);
 }
 
