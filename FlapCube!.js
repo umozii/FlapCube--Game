@@ -313,6 +313,5 @@ canvas.addEventListener("pointerdown", (e) => {
     }
 });
 
-
 // Start the game loop
 gameLoop();
