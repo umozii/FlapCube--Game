@@ -80,7 +80,26 @@ class Pipe {
     draw() {
         ctx.fillStyle = GREEN;
         ctx.fillRect(this.x, 0, PIPE_WIDTH, this.height);
-        ctx.fillRect(this.x, this.height + this.gap, PIPE_WIDTH, HEIGHT - this.height - this.gap);
+
+        // 2. 在上水管底部，加一個深綠色小方塊
+        ctx.fillStyle = "#009900";      
+        ctx.fillRect(this.x,            // x 座標
+                    this.height - 10,  // 從上水管的底部往上 10px 
+                    PIPE_WIDTH,        // 寬
+                    10);               // 厚度 10px 
+
+        // 3. 下水管(原本的)
+        const bottomY = this.height + this.gap;
+        const bottomHeight = HEIGHT - bottomY;
+        ctx.fillStyle = GREEN;
+        ctx.fillRect(this.x, bottomY, PIPE_WIDTH, bottomHeight);
+
+        // 4. 在下水管頂部，加一個深綠色小方塊
+        ctx.fillStyle = "#009900";     
+        ctx.fillRect(this.x,           // x 座標
+                    bottomY,          // 下水管 頂部
+                    PIPE_WIDTH,
+                    10);              // 同樣給它 10px 
     }
 }
 
