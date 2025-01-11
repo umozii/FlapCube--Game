@@ -2,8 +2,8 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 // Set up display
-const WIDTH = 500; // Game canvas width  遊戲畫布寬度
-const HEIGHT = 600; // Game canvas height  遊戲畫布高度
+const WIDTH = 500; // Game canvas width
+const HEIGHT = 600; // Game canvas height
 canvas.width = WIDTH;
 canvas.height = HEIGHT;
 
@@ -12,15 +12,15 @@ const WHITE = "#FFFFFF";
 const GREEN = "#00FF00";
 const BLACK = "#000000";
 
-// Define constants  定義常數
-const FPS = 60; // Frames per second 每秒影格數
-const GRAVITY = 0.65; // Gravity effect 重力影響
-const JUMP = -12; // Jump velocity 跳躍速度
-const PIPE_WIDTH = 70; // Pipe width  水管寬度
-const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes  水管間最小垂直間隙
-const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes  水管間最大垂直間隙
-const MAX_FALL_SPEED = 4; // Maximum fall speed   最大下墜速度
-const PIPE_SPAWN_INTERVAL = 95; // Frames between pipe spawns  產生新水管的幀數間隔
+// Define constants
+const FPS = 60; // Frames per second
+const GRAVITY = 0.65; // Gravity effect
+const JUMP = -12; // Jump velocity
+const PIPE_WIDTH = 70; // Pipe width
+const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
+const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes
+const MAX_FALL_SPEED = 4; // Maximum fall speed
+const PIPE_SPAWN_INTERVAL = 95; // Frames between pipe spawns
 
 // Game state
 const STATES = {
@@ -35,62 +35,36 @@ let state = STATES.START;
 // Bird class
 class Bird {
     constructor() {
-        this.x = WIDTH * 0.15; // 小鳥水平位置
-        this.y = HEIGHT / 2;   // 小鳥垂直位置
-        this.vel = 0;          // 初始垂直速度
-        this.width = 30;       // 小鳥的寬度
-        this.height = 30;      // 小鳥的高度
+        this.x = WIDTH * 0.15; // Bird's horizontal position
+        this.y = HEIGHT / 2;   // Bird's vertical position
+        this.vel = 0;          // Initial vertical velocity
+        this.width = 30;       // Bird's width
+        this.height = 30;      // Bird's height
+
+        // Load bird image
+        this.image = new Image();
+        this.image.src = "bird.png"; // Make sure the image is uploaded to the same directory or adjust the path
     }
 
     update() {
-        this.vel += GRAVITY; // 受到重力影響
+        this.vel += GRAVITY; // Gravity effect
         if (this.vel > MAX_FALL_SPEED) {
-            this.vel = MAX_FALL_SPEED; // 限制最大墜落速度
+            this.vel = MAX_FALL_SPEED; // Limit max falling speed
         }
-        this.y += this.vel; // 更新小鳥的垂直位置
-        if (this.y < 0) {   // 防止小鳥飛出畫面頂部
+        this.y += this.vel; // Update vertical position
+        if (this.y < 0) {   // Prevent bird from flying above the canvas
             this.y = 0;
             this.vel = 0;
         }
     }
 
     jump() {
-        this.vel = JUMP; // 跳躍時重置垂直速度
+        this.vel = JUMP; // Reset vertical speed when jumping
     }
 
     draw() {
-        const scale = 30 / 351; // ~ 0.085
-	const bodyW = Math.round(323 * scale); // ~28
-        const bodyH = Math.round(351 * scale); // 30
-        ctx.fillStyle = "#FFFF80";
-        ctx.fillRect(this.x, this.y, bodyW, bodyH);
-
-        // === 翅膀 ===
-        // 原圖 x=70, y=140, w=100, h=80 -> 縮放後 x=6, y=12, w=8.5->8 or 9, h=6.8->7
-        const wingX = this.x + Math.round(70 * scale);
-        const wingY = this.y + Math.round(140 * scale);
-        const wingW = Math.round(100 * scale);
-        const wingH = Math.round(80 * scale);
-        ctx.fillStyle = "#FFFF00"; // 稍深黃
-        ctx.fillRect(wingX, wingY, wingW, wingH);
-
-        // === 眼睛 ===
-        // 原圖 x=220, y=80, w=20, h=20 -> scale => x=19, y=7, w=2, h=2
-        const eyeX = this.x + Math.round(220 * scale);
-        const eyeY = this.y + Math.round(80 * scale);
-        const eyeW = Math.round(20 * scale);
-        const eyeH = Math.round(20 * scale);
-        ctx.fillStyle = "#000000";
-        ctx.fillRect(eyeX, eyeY, eyeW, eyeH);
-
-        // === 嘴巴 ===
-        // 原圖 x=200, y=140, w=40, h=20 -> scale => x=17, y=12, w=3, h=2
-        const mouthX = this.x + Math.round(200 * scale);
-        const mouthY = this.y + Math.round(140 * scale);
-        const mouthW = Math.round(40 * scale);
-        const mouthH = Math.round(20 * scale);
-        ctx.fillStyle = "#7A5E36";
-        ctx.fillRect(mouthX, mouthY, mouthW, mouthH);
+        // Draw the bird image
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -100,7 +74,7 @@ class Pipe {
         this.x = WIDTH;
         this.gap = Math.floor(Math.random() * (MAX_PIPE_GAP - MIN_PIPE_GAP + 1)) + MIN_PIPE_GAP;
         this.height = Math.floor(Math.random() * (HEIGHT - this.gap - 100)) + 100;
-        this.speed = 2.5; // 調整此值控制速度，例如設為 3 表示較慢的移動速度
+        this.speed = 2.5; // Speed of pipe movement
     }
 
     update() {
@@ -111,25 +85,19 @@ class Pipe {
         ctx.fillStyle = GREEN;
         ctx.fillRect(this.x, 0, PIPE_WIDTH, this.height);
 
-        // 2. 在上水管底部，加一個深綠色小方塊
-        ctx.fillStyle = "#009900";      
-        ctx.fillRect(this.x - 5,            // x 座標
-                    this.height - 15,  // 從上水管的底部往上 10px 
-                    PIPE_WIDTH + 10,        // 寬
-                    15);               // 厚度 10px 
+        // Add a darker green rectangle to simulate the pipe's rim
+        ctx.fillStyle = "#009900";
+        ctx.fillRect(this.x - 5, this.height - 15, PIPE_WIDTH + 10, 15);
 
-        // 3. 下水管(原本的)
         const bottomY = this.height + this.gap;
         const bottomHeight = HEIGHT - bottomY;
+
         ctx.fillStyle = GREEN;
         ctx.fillRect(this.x, bottomY, PIPE_WIDTH, bottomHeight);
 
-        // 4. 在下水管頂部，加一個深綠色小方塊
-        ctx.fillStyle = "#009900";     
-        ctx.fillRect(this.x - 5,           // x 座標
-                    bottomY,          // 下水管 頂部
-                    PIPE_WIDTH + 10,
-                    15);              // 同樣給它 10px 
+        // Add a darker green rectangle to simulate the pipe's rim
+        ctx.fillStyle = "#009900";
+        ctx.fillRect(this.x - 5, bottomY - 15, PIPE_WIDTH + 10, 15);
     }
 }
 
@@ -152,43 +120,27 @@ function resetGame() {
 
 // === Start screen ===
 function startScreen() {
-    // Fill the entire canvas with white
     ctx.fillStyle = WHITE;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
-  
-    // Center alignment for text
+
     ctx.textAlign = "center";
     ctx.fillStyle = BLACK;
-  
-    // FlapCube! (48px)
+
+    // Game title
     ctx.font = "48px Arial";
     ctx.fillText("FlapCube!", WIDTH / 2, HEIGHT / 3);
-  
-    // Press Enter to Start (24px)
+
+    // Instructions
     ctx.font = "24px Arial";
     ctx.fillText("Press Enter or Tap to Start", WIDTH / 2, HEIGHT / 2);
-  
-    // Press up arrow to control (16px)
     ctx.font = "16px Arial";
     ctx.fillText("Press Up Arrow or Tap to Jump", WIDTH / 2, HEIGHT / 2 + 40);
-  
-    // Developed by umozii (10px) at bottom-right
+
+    // Developer credit
     ctx.font = "10px Arial";
     ctx.textAlign = "right";
     ctx.fillText("Developed by umozii", WIDTH - 10, HEIGHT - 10);
-  }
-
-// function startScreen() {
-//     ctx.fillStyle = WHITE;
-//     ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-//     ctx.fillStyle = BLACK;
-//     ctx.font = "48px Arial";
-//     ctx.fillText("FlapCube!", WIDTH / 2 - 120, HEIGHT / 3);
-
-//     ctx.font = "24px Arial";
-//     ctx.fillText("Press Enter to Start", WIDTH / 2 - 100, HEIGHT / 2);
-// }
+}
 
 function countdownScreen(count) {
     ctx.fillStyle = WHITE;
@@ -197,46 +149,29 @@ function countdownScreen(count) {
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
     ctx.textBaseline = "middle";
-	
+
     const text = count.toString();
     const metrics = ctx.measureText(text);
-
-    if (
-    typeof metrics.actualBoundingBoxLeft === "number" &&
-    typeof metrics.actualBoundingBoxRight === "number"
-  ) {
-    // 整個文字內容的實際寬度 (不包含字形外的空白)
-    const fullWidth = metrics.actualBoundingBoxLeft + metrics.actualBoundingBoxRight;
-    // 算出文字「視覺上」的正中點應該在哪
-    const x = (WIDTH / 2 - metrics.actualBoundingBoxLeft) + 30;
+    const x = (WIDTH - metrics.width) / 2;
     const y = HEIGHT / 2;
 
     ctx.fillText(text, x, y);
-
-  } else {
-    // fallback：舊作法，用整段字串的總寬度
-    const textWidth = metrics.width;
-    const x = (WIDTH - textWidth) / 2;
-    const y = HEIGHT / 2;
-
-    ctx.fillText(text, x, y);
-  }
 }
-    
+
 function gameOverScreen() {
     ctx.fillStyle = WHITE;
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     ctx.fillStyle = BLACK;
     ctx.font = "48px Arial";
-    ctx.fillText("Game Over", WIDTH / 2 - 120, HEIGHT / 3);
+    ctx.fillText("Game Over", WIDTH / 2, HEIGHT / 3);
 
     ctx.font = "24px Arial";
-    ctx.fillText(`Score: ${score}`, WIDTH / 2 - 50, HEIGHT / 2 - 50);
-    ctx.fillText(`High Score: ${highScore}`, WIDTH / 2 - 80, HEIGHT / 2);
-	
-    ctx.font = "24px Arial";
-    ctx.fillText("Press Enter to Restart", WIDTH / 2 - 120, HEIGHT / 2 + 50);
+    ctx.fillText(`Score: ${score}`, WIDTH / 2, HEIGHT / 2 - 20);
+    ctx.fillText(`High Score: ${highScore}`, WIDTH / 2, HEIGHT / 2 + 20);
+
+    ctx.font = "16px Arial";
+    ctx.fillText("Press Enter or Tap to Restart", WIDTH / 2, HEIGHT / 2 + 60);
 }
 
 // Main game loop
@@ -254,58 +189,31 @@ function gameLoop() {
             countdownScreen(countdown);
         }
     } else if (state === STATES.PLAYING) {
-        // Update bird
         bird.update();
 
-        // Spawn pipes
         if (frameCount % PIPE_SPAWN_INTERVAL === 0) {
             pipes.push(new Pipe());
         }
 
-        // Update pipes
-        for (let i = pipes.length - 1; i >= 0; i--) {
-            pipes[i].update();
-            if (pipes[i].x + PIPE_WIDTH < 0) {
-                pipes.splice(i, 1);
-                score++;
-                if (score > highScore) highScore = score;
-            }
-        }
-
-        // Collision detection
-        let collision = false;
         pipes.forEach((pipe) => {
-            if (
-                bird.x < pipe.x + PIPE_WIDTH &&
-                bird.x + bird.width > pipe.x &&
-                (bird.y < pipe.height || bird.y + bird.height > pipe.height + pipe.gap)
-            ) {
-                collision = true;
-            }
+            pipe.update();
+            pipe.draw();
         });
 
-        if (collision || bird.y > HEIGHT || bird.y < 0) {
-            state = STATES.GAME_OVER;
-        }
-
-        // Draw everything
         bird.draw();
-        pipes.forEach((pipe) => pipe.draw());
 
-        // Draw score
-        // 繪製分數與高分
-	ctx.fillStyle = BLACK;
-	ctx.font = "24px Arial";
+        // Remove off-screen pipes
+        pipes.forEach((pipe, i) => {
+            if (pipe.x + PIPE_WIDTH < 0) pipes.splice(i, 1);
+        });
 
-	// 繪製左上角的 Score
-	ctx.textAlign = "left";
-	ctx.fillText(`Score: ${score}`, 10, 30);
-
-	// 計算 High Score 的寬度並動態調整位置
-	const highScoreText = `High Score: ${highScore}`;
-	const highScoreWidth = ctx.measureText(highScoreText).width;
-	ctx.fillText(highScoreText, WIDTH - highScoreWidth - 10, 30); // 保留 10px 邊距
-
+        // Score handling
+        ctx.fillStyle = BLACK;
+        ctx.font = "24px Arial";
+        ctx.textAlign = "left";
+        ctx.fillText(`Score: ${score}`, 10, 30);
+        ctx.textAlign = "right";
+        ctx.fillText(`High Score: ${highScore}`, WIDTH - 10, 30);
     } else if (state === STATES.GAME_OVER) {
         gameOverScreen();
     }
@@ -325,33 +233,8 @@ document.addEventListener("keydown", (e) => {
         resetGame();
     }
 });
-// canvas.addEventListener("click", () => {
-//     if (state === STATES.START) {
-//         state = STATES.COUNTDOWN;
-//         frameCount = 0;
-//     } else if (state === STATES.PLAYING) {
-//         bird.jump();
-//     } else if (state === STATES.GAME_OVER) {
-//         resetGame();
-//     }
-// });
 
-// canvas.addEventListener("touchstart", (e) => {
-//     e.preventDefault(); // 防止手機瀏覽器產生選字/捲動等預設行為
-//     if (state === STATES.START) {
-//         state = STATES.COUNTDOWN;
-//         frameCount = 0;
-//     } else if (state === STATES.PLAYING) {
-//         bird.jump();
-//     } else if (state === STATES.GAME_OVER) {
-//         resetGame();
-//     }
-// });
-canvas.addEventListener("pointerdown", (e) => {
-    // optional:  e.preventDefault(); // 防止手機或平板的預設行為(捲動/縮放)
-    // 確認pointerType
-    console.log("Pointer type:", e.pointerType);
-    // 可能是 "mouse", "touch", "pen"
+canvas.addEventListener("pointerdown", () => {
     if (state === STATES.START) {
         state = STATES.COUNTDOWN;
         frameCount = 0;
