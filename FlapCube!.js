@@ -207,7 +207,30 @@ function gameLoop() {
             if (pipe.x + PIPE_WIDTH < 0) pipes.splice(i, 1);
         });
 
-        // Score handling
+        // Collision detection
+        let collision = pipes.some(
+            (pipe) =>
+                bird.x < pipe.x + PIPE_WIDTH &&
+                bird.x + bird.width > pipe.x &&
+                (bird.y < pipe.height || bird.y + bird.height > pipe.height + pipe.gap)
+        );
+
+        if (collision || bird.y > HEIGHT || bird.y < 0) {
+            state = STATES.GAME_OVER;
+        }
+
+        // Update score
+        pipes.forEach((pipe) => {
+            if (!pipe.passed && bird.x > pipe.x + PIPE_WIDTH) {
+                pipe.passed = true;
+                score++;
+                if (score > highScore) {
+                    highScore = score;
+                }
+            }
+        });
+
+        // Draw score
         ctx.fillStyle = BLACK;
         ctx.font = "24px Arial";
         ctx.textAlign = "left";
