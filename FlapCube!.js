@@ -59,33 +59,22 @@ class Bird {
     }
 
     draw() {
-        // 1. 主體：大黃方塊 (身體)
+        // 0. 主體：大黃方塊 (身體)
         ctx.fillStyle = "#FFFF80"; // 你想要的淺黃 (可換成更亮更暗)
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
-        // 2. 翅膀（較深黃色），位置大約在身體中間
+        // 1. 翅膀（較深黃色），位置大約在身體中間
         //   讓它比身體略小一些，並往身體中偏
-        let wingW = this.width * 0.4;   // 翅膀寬度
-        let wingH = this.height * 0.3;  // 翅膀高度
-        let wingX = this.x + (this.width * 0.2); // 稍微靠中間
-        let wingY = this.y + (this.height * 0.4);
         ctx.fillStyle = "#FFFF00"; // 稍深黃
-        ctx.fillRect(wingX, wingY, wingW, wingH);
+        ctx.fillRect(this.x + 8, this.y + 12, 15, 15);
 
-        // 3. 眼睛（黑色方塊），位置在右上角
-        let eyeSize = 5; // 固定大小
-        let eyeX = this.x + this.width * 0.7; 
-        let eyeY = this.y + this.height * 0.2;
+        // 2. 眼睛（黑色方塊），位置在右上角
         ctx.fillStyle = "#000000"; // 黑色
-        ctx.fillRect(eyeX, eyeY, eyeSize, eyeSize);
+        ctx.fillRect(this.x + 28, this.y + 6, 5, 5);
 
-        // 4. 嘴巴（咖啡色），在眼睛略下方
-        let mouthW = this.width * 0.25;
-        let mouthH = 5; // 薄薄一條
-        let mouthX = this.x + this.width * 0.65; 
-        let mouthY = this.y + this.height * 0.35;
+        // 3. 嘴巴（咖啡色），在眼睛略下方
         ctx.fillStyle = "#7A5E36"; // 或你想要的咖啡色
-        ctx.fillRect(mouthX, mouthY, mouthW, mouthH);
+        ctx.fillRect(this.x + 25, this.y + 15, 10, 5);
     }
 }
 
