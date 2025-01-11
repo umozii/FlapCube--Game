@@ -130,11 +130,26 @@ function startScreen() {
     ctx.fillText("Press Up Arrow or Tap to Jump", WIDTH / 2, HEIGHT / 2 + 40);
 }
 
+// === Countdown screen ===
+function countdownScreen(count) {
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#000000";
+    ctx.font = "48px Arial";
+    ctx.fillText(count, WIDTH / 2, HEIGHT / 2);
+}
+
+// === Game Over screen ===
 function gameOverScreen() {
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
+    ctx.textAlign = "center";
     ctx.fillStyle = "#000000";
+
     ctx.font = "48px Arial";
     ctx.fillText("Game Over", WIDTH / 2, HEIGHT / 3);
 
@@ -153,6 +168,13 @@ function gameLoop() {
 
     if (state === STATES.START) {
         startScreen();
+    } else if (state === STATES.COUNTDOWN) {
+        const countdown = 3 - Math.floor(frameCount / FPS);
+        if (countdown <= 0) {
+            state = STATES.PLAYING;
+        } else {
+            countdownScreen(countdown);
+        }
     } else if (state === STATES.PLAYING) {
         bird.update();
 
@@ -213,7 +235,8 @@ function gameLoop() {
 // Event listeners
 document.addEventListener("keydown", (e) => {
     if (state === STATES.START && e.code === "Enter") {
-        state = STATES.PLAYING;
+        state = STATES.COUNTDOWN;
+        frameCount = 0;
     } else if (state === STATES.PLAYING && e.code === "ArrowUp") {
         bird.jump();
     } else if (state === STATES.GAME_OVER && e.code === "Enter") {
@@ -223,7 +246,8 @@ document.addEventListener("keydown", (e) => {
 
 canvas.addEventListener("pointerdown", () => {
     if (state === STATES.START) {
-        state = STATES.PLAYING;
+        state = STATES.COUNTDOWN;
+        frameCount = 0;
     } else if (state === STATES.PLAYING) {
         bird.jump();
     } else if (state === STATES.GAME_OVER) {
