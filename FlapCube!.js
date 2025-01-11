@@ -14,7 +14,7 @@ const JUMP = -11.5; // Jump velocity
 const PIPE_WIDTH = 70; // Pipe width
 const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
 const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes
-const MAX_FALL_SPEED = 5; // Maximum fall speed
+const MAX_FALL_SPEED = 4.5; // Maximum fall speed
 const PIPE_SPAWN_INTERVAL = 95; // Frames between pipe spawns
 
 // Game state
