@@ -59,22 +59,38 @@ class Bird {
     }
 
     draw() {
-        // 0. 主體：大黃方塊 (身體)
-        ctx.fillStyle = "#FFFF80"; // 你想要的淺黃 (可換成更亮更暗)
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        const scale = 30 / 351; // ~ 0.085
+	const bodyW = Math.round(323 * scale); // ~28
+        const bodyH = Math.round(351 * scale); // 30
+        ctx.fillStyle = "#FFFF80";
+        ctx.fillRect(this.x, this.y, bodyW, bodyH);
 
-        // 1. 翅膀（較深黃色），位置大約在身體中間
-        //   讓它比身體略小一些，並往身體中偏
+        // === 翅膀 ===
+        // 原圖 x=70, y=140, w=100, h=80 -> 縮放後 x=6, y=12, w=8.5->8 or 9, h=6.8->7
+        const wingX = this.x + Math.round(70 * scale);
+        const wingY = this.y + Math.round(140 * scale);
+        const wingW = Math.round(100 * scale);
+        const wingH = Math.round(80 * scale);
         ctx.fillStyle = "#FFFF00"; // 稍深黃
-        ctx.fillRect(this.x + 8, this.y + 12, 15, 15);
+        ctx.fillRect(wingX, wingY, wingW, wingH);
 
-        // 2. 眼睛（黑色方塊），位置在右上角
-        ctx.fillStyle = "#000000"; // 黑色
-        ctx.fillRect(this.x + 28, this.y + 6, 5, 5);
+        // === 眼睛 ===
+        // 原圖 x=220, y=80, w=20, h=20 -> scale => x=19, y=7, w=2, h=2
+        const eyeX = this.x + Math.round(220 * scale);
+        const eyeY = this.y + Math.round(80 * scale);
+        const eyeW = Math.round(20 * scale);
+        const eyeH = Math.round(20 * scale);
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(eyeX, eyeY, eyeW, eyeH);
 
-        // 3. 嘴巴（咖啡色），在眼睛略下方
-        ctx.fillStyle = "#7A5E36"; // 或你想要的咖啡色
-        ctx.fillRect(this.x + 25, this.y + 15, 10, 5);
+        // === 嘴巴 ===
+        // 原圖 x=200, y=140, w=40, h=20 -> scale => x=17, y=12, w=3, h=2
+        const mouthX = this.x + Math.round(200 * scale);
+        const mouthY = this.y + Math.round(140 * scale);
+        const mouthW = Math.round(40 * scale);
+        const mouthH = Math.round(20 * scale);
+        ctx.fillStyle = "#7A5E36";
+        ctx.fillRect(mouthX, mouthY, mouthW, mouthH);
     }
 }
 
