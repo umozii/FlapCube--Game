@@ -97,7 +97,7 @@ class Pipe {
         // 4. 在下水管頂部，加一個深綠色小方塊
         ctx.fillStyle = "#009900";     
         ctx.fillRect(this.x - 5,           // x 座標
-                    bottomY - 15,          // 下水管 頂部
+                    bottomY,          // 下水管 頂部
                     PIPE_WIDTH + 10,
                     15);              // 同樣給它 10px 
     }
