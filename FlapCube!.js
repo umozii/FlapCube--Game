@@ -7,11 +7,6 @@ const HEIGHT = 600; // Game canvas height
 canvas.width = WIDTH;
 canvas.height = HEIGHT;
 
-// Define colors
-const WHITE = "#FFFFFF";
-const GREEN = "#00FF00";
-const BLACK = "#000000";
-
 // Define constants
 const FPS = 60; // Frames per second
 const GRAVITY = 0.65; // Gravity effect
@@ -43,7 +38,7 @@ class Bird {
 
         // Load bird image
         this.image = new Image();
-        this.image.src = "bird.png"; // Make sure the image is uploaded to the same directory or adjust the path
+        this.image.src = "bird.png";
     }
 
     update() {
@@ -74,7 +69,8 @@ class Pipe {
         this.x = WIDTH;
         this.gap = Math.floor(Math.random() * (MAX_PIPE_GAP - MIN_PIPE_GAP + 1)) + MIN_PIPE_GAP;
         this.height = Math.floor(Math.random() * (HEIGHT - this.gap - 100)) + 100;
-        this.speed = 2.5; // Speed of pipe movement
+        this.speed = 2.5; // Pipe movement speed
+        this.passed = false; // Track if bird has passed the pipe
     }
 
     update() {
@@ -82,21 +78,19 @@ class Pipe {
     }
 
     draw() {
-        ctx.fillStyle = GREEN;
+        ctx.fillStyle = "#00FF00"; // Pipe color
         ctx.fillRect(this.x, 0, PIPE_WIDTH, this.height);
 
-        // Add a darker green rectangle to simulate the pipe's rim
-        ctx.fillStyle = "#009900";
+        ctx.fillStyle = "#009900"; // Pipe rim color
         ctx.fillRect(this.x - 5, this.height - 15, PIPE_WIDTH + 10, 15);
 
         const bottomY = this.height + this.gap;
         const bottomHeight = HEIGHT - bottomY;
 
-        ctx.fillStyle = GREEN;
+        ctx.fillStyle = "#00FF00"; // Pipe color
         ctx.fillRect(this.x, bottomY, PIPE_WIDTH, bottomHeight);
 
-        // Add a darker green rectangle to simulate the pipe's rim
-        ctx.fillStyle = "#009900";
+        ctx.fillStyle = "#009900"; // Pipe rim color
         ctx.fillRect(this.x - 5, bottomY - 15, PIPE_WIDTH + 10, 15);
     }
 }
@@ -120,49 +114,27 @@ function resetGame() {
 
 // === Start screen ===
 function startScreen() {
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     ctx.textAlign = "center";
-    ctx.fillStyle = BLACK;
+    ctx.fillStyle = "#000000";
 
-    // Game title
     ctx.font = "48px Arial";
-    ctx.fillText("FlapCube!", WIDTH / 2, HEIGHT / 3);
+    ctx.fillText("Flappy Bird!", WIDTH / 2, HEIGHT / 3);
 
-    // Instructions
     ctx.font = "24px Arial";
     ctx.fillText("Press Enter or Tap to Start", WIDTH / 2, HEIGHT / 2);
+
     ctx.font = "16px Arial";
     ctx.fillText("Press Up Arrow or Tap to Jump", WIDTH / 2, HEIGHT / 2 + 40);
-
-    // Developer credit
-    ctx.font = "10px Arial";
-    ctx.textAlign = "right";
-    ctx.fillText("Developed by umozii", WIDTH - 10, HEIGHT - 10);
-}
-
-function countdownScreen(count) {
-    ctx.fillStyle = WHITE;
-    ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-    ctx.fillStyle = BLACK;
-    ctx.font = "48px Arial";
-    ctx.textBaseline = "middle";
-
-    const text = count.toString();
-    const metrics = ctx.measureText(text);
-    const x = (WIDTH - metrics.width) / 2;
-    const y = HEIGHT / 2;
-
-    ctx.fillText(text, x, y);
 }
 
 function gameOverScreen() {
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-    ctx.fillStyle = BLACK;
+    ctx.fillStyle = "#000000";
     ctx.font = "48px Arial";
     ctx.fillText("Game Over", WIDTH / 2, HEIGHT / 3);
 
@@ -176,18 +148,11 @@ function gameOverScreen() {
 
 // Main game loop
 function gameLoop() {
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
     if (state === STATES.START) {
         startScreen();
-    } else if (state === STATES.COUNTDOWN) {
-        let countdown = 3 - Math.floor(frameCount / FPS);
-        if (countdown <= 0) {
-            state = STATES.PLAYING;
-        } else {
-            countdownScreen(countdown);
-        }
     } else if (state === STATES.PLAYING) {
         bird.update();
 
@@ -202,13 +167,13 @@ function gameLoop() {
 
         bird.draw();
 
-        // Remove off-screen pipes
+        // Remove pipes that are off-screen
         pipes.forEach((pipe, i) => {
             if (pipe.x + PIPE_WIDTH < 0) pipes.splice(i, 1);
         });
 
         // Collision detection
-        let collision = pipes.some(
+        const collision = pipes.some(
             (pipe) =>
                 bird.x < pipe.x + PIPE_WIDTH &&
                 bird.x + bird.width > pipe.x &&
@@ -231,7 +196,7 @@ function gameLoop() {
         });
 
         // Draw score
-        ctx.fillStyle = BLACK;
+        ctx.fillStyle = "#000000";
         ctx.font = "24px Arial";
         ctx.textAlign = "left";
         ctx.fillText(`Score: ${score}`, 10, 30);
@@ -248,8 +213,7 @@ function gameLoop() {
 // Event listeners
 document.addEventListener("keydown", (e) => {
     if (state === STATES.START && e.code === "Enter") {
-        state = STATES.COUNTDOWN;
-        frameCount = 0;
+        state = STATES.PLAYING;
     } else if (state === STATES.PLAYING && e.code === "ArrowUp") {
         bird.jump();
     } else if (state === STATES.GAME_OVER && e.code === "Enter") {
@@ -259,8 +223,7 @@ document.addEventListener("keydown", (e) => {
 
 canvas.addEventListener("pointerdown", () => {
     if (state === STATES.START) {
-        state = STATES.COUNTDOWN;
-        frameCount = 0;
+        state = STATES.PLAYING;
     } else if (state === STATES.PLAYING) {
         bird.jump();
     } else if (state === STATES.GAME_OVER) {
