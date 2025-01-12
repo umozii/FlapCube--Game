@@ -121,7 +121,7 @@ function startScreen() {
     ctx.fillStyle = "#000000";
 
     ctx.font = "48px Arial";
-    ctx.fillText("Flappy Bird!", WIDTH / 2, HEIGHT / 3);
+    ctx.fillText("FlapCube!", WIDTH / 2, HEIGHT / 3);
 
     ctx.font = "24px Arial";
     ctx.fillText("Press Enter or Tap to Start", WIDTH / 2, HEIGHT / 2);
