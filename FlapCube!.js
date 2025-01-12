@@ -2,7 +2,7 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 // Set up display
-const WIDTH = 450; // Game canvas width
+const WIDTH = 500; // Game canvas width
 const HEIGHT = 600; // Game canvas height
 canvas.width = WIDTH;
 canvas.height = HEIGHT;
