@@ -69,7 +69,7 @@ class Pipe {
         this.x = WIDTH;
         this.gap = Math.floor(Math.random() * (MAX_PIPE_GAP - MIN_PIPE_GAP + 1)) + MIN_PIPE_GAP;
         this.height = Math.floor(Math.random() * (HEIGHT - this.gap - 100)) + 100;
-        this.speed = 1.5; // Pipe movement speed
+        this.speed = 2; // Pipe movement speed
         this.passed = false; // Track if bird has passed the pipe
     }
 
