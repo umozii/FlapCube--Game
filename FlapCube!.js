@@ -9,7 +9,7 @@ canvas.height = HEIGHT;
 
 // Define constants
 const FPS = 60; // Frames per second
-const GRAVITY = 0.65; // Gravity effect
+const GRAVITY = 0.60; // Gravity effect
 const JUMP = -11.0; // Jump velocity
 const PIPE_WIDTH = 70; // Pipe width
 const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
@@ -257,6 +257,7 @@ canvas.addEventListener("pointerdown", () => {
 
 // Start the game loop
 gameLoop();
+
 
 
 
