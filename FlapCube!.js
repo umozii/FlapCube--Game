@@ -15,7 +15,7 @@ const PIPE_WIDTH = 70; // Pipe width
 const MIN_PIPE_GAP = 230; // Minimum vertical gap between pipes
 const MAX_PIPE_GAP = 300; // Maximum vertical gap between pipes
 const MAX_FALL_SPEED = 4.5; // Maximum fall speed
-const PIPE_SPAWN_INTERVAL = 95; // Frames between pipe spawns
+const PIPE_SPAWN_INTERVAL = 100; // Frames between pipe spawns
 
 // Game state
 const STATES = {
@@ -257,6 +257,7 @@ canvas.addEventListener("pointerdown", () => {
 
 // Start the game loop
 gameLoop();
+
 
 
 
